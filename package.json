@@ -1,0 +1,43 @@
+{
+  "name": "nusmods-sync",
+  "version": "1.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode relay",
+    "build": "npm run build:chrome && npm run build:firefox",
+    "build:chrome": "tsc --noEmit && node scripts/clean-dist.mjs chrome && TARGET_BROWSER=chrome vite build --mode relay && node scripts/prune-dist.mjs chrome",
+    "build:firefox": "tsc --noEmit && node scripts/clean-dist.mjs firefox && TARGET_BROWSER=firefox vite build --mode relay && node scripts/postprocess-firefox.mjs && node scripts/prune-dist.mjs firefox",
+    "build:firefox:unlisted": "FIREFOX_EXTENSION_ID=nusmods-sync-unlisted@accountless-sync.local FIREFOX_EXTENSION_NAME='NUSMods Sync (Unlisted)' npm run build:firefox",
+    "relay:dev": "wrangler dev --config relay/wrangler.jsonc",
+    "relay:create-db": "wrangler d1 create nusmods-sync-relay",
+    "relay:configure-db": "node scripts/configure-d1.mjs",
+    "extension:configure-relay": "node scripts/configure-extension.mjs",
+    "relay:migrate": "wrangler d1 execute nusmods-sync-relay --remote --file=relay/schema.sql --config relay/wrangler.jsonc",
+    "relay:deploy": "wrangler deploy --config relay/wrangler.jsonc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "tsc --noEmit && vitest run",
+    "verify:build": "node scripts/verify-build.mjs",
+    "verify": "npm run check && npm run build && npm run verify:build && node scripts/prune-dist.mjs chrome && node scripts/prune-dist.mjs firefox && node node_modules/web-ext/bin/web-ext.js lint --source-dir dist/firefox --self-hosted && node scripts/prune-dist.mjs firefox"
+  },
+  "dependencies": {
+    "@crxjs/vite-plugin": "^2.7.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.1",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "jsdom": "^27.0.1",
+    "sharp": "^0.35.3",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.1",
+    "vitest": "^4.1.10",
+    "web-ext": "^10.6.0",
+    "wrangler": "^4.30.0"
+  }
+}

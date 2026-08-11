@@ -1,0 +1,27 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "nusmods-sync-relay",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nusmods-sync-relay",
+      "database_id": "08bcd3fc-0296-49fe-ab4e-bfb9dcef851c"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SYNC_ROOMS",
+        "class_name": "SyncRoom"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["SyncRoom"]
+    }
+  ]
+}

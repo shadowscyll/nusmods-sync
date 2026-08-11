@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "NUSMods Sync",
+  "version": "1.1",
+  "description": "End-to-end encrypted NUSMods timetable sync without a user account.",
+  "permissions": ["storage", "alarms", "scripting"],
+  "host_permissions": ["https://nusmods.com/*", "https://www.nusmods.com/*", "https://api.nusmods.com/*"],
+  "background": {
+    "service_worker": "src/background/background.ts",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "NUSMods Sync",
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://nusmods.com/*", "https://www.nusmods.com/*"],
+      "js": ["src/content/content.ts"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://nusmods.com/*", "https://www.nusmods.com/*"],
+      "js": ["src/content/pageBridge.ts"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

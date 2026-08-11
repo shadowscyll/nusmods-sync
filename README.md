@@ -2,6 +2,10 @@
 
 NUSMods Sync keeps NUSMods timetables synchronized across Chrome and Firefox without requiring an account. Version 1.1 keeps the original compact sync status while retaining native share links, revision ordering, and adaptive batching.
 
+## Demo
+
+https://github.com/user-attachments/assets/de13fe08-a81e-44ec-bac4-f3e169720e38
+
 ## How it works
 
 1. The extension reads NUSMods' validated `persist:timetables` state and normalizes the active timetable.
